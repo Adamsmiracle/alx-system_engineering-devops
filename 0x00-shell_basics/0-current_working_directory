@@ -1,2 +1,2 @@
-#!/bin/bash \n
-echo $realpath \n
+#!/bin/bash
+echo $realpath 
