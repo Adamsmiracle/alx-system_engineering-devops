@@ -12,15 +12,10 @@ mkdir /etc/nginx/html
 #  creates an empty index.html file inside the /etc/nginx/html directory.
 touch /etc/nginx/html/index.html
 #  Writes "Hello World!" to the the index.html file
-echo "Hello World!" > /etc/nginx/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 # Sets the Nginx server with the ff configurations
-printf %s "server {
-     listen      80;
-     listen      [::]:80 default_server;
-     root        /etc/nginx/html;
-     index       index.html index.htm;
-}
-" > /etc/nginx/sites-available/default
+sudo sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
 
 # Restarts the Nginx service
+echo "Nginx installed and configured successfully."
 service nginx restart
