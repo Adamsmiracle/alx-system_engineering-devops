@@ -1,27 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Transfers a file from a client to a server
 
-#checking if the the number of arguments is correct
-if [ "$#" -ne 4 ]; then
-	echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
-	exit 1
+# Verify if all parameters are provided
+if [ $# -lt 4 ]; then
+  echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+  exit 1
 fi
 
-#Assigning parameters to variables
-file_path="$1"
-server_ip="$2"
-username="$3"
-ssh_key="$4"
+filepath=$1
+serverip=$2
+username=$3
+sshkey=$4
 
-# transfer files using scp
-scp -o StrictHostKeyChecking=no -i "$ssh_key" "$file_path" "$username"@"$server_ip":~/
+# Transfer the file using scp
+scp -o StrictHostKeyChecking=no -i "$sshkey" "$filepath" "$username@$serverip:~/"
 
-#check if scp command was success
-if [ $? -eq 0 ]; then
-	echo "File transfered successfully."
-else
-	echo "Error: file transfer failed."
-fi
-
-# SSH command to execute ls ~/
-echo "Contents of home directory after file transfer:"
-ssh -o StrictHostKeyChecking=no -i "$ssh_key" "$username"@"$server_ip" "ls ~/"
+exit 0
