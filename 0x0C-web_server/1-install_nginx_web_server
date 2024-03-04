@@ -1,12 +1,11 @@
-#!usr/bin/env bash
-#install nginx to listen on port 80 and then display Hello world
-# when a get request to sent to the root directory /.
+#!/usr/bin/env bash
+# Installs Nginx listens on port 80 and returns a hello world
+# when a GET request sent sent to /.
 
-#update the package manager list
-sudo apt update
-
-#install nginx server with the -y flag to accept all options
-sudo apt install -y nginx
+#  updates the package lists
+apt-get update
+# installs the Nginx web server (accepting all options).
+apt-get install -y nginx
 
 # Creates the /etc/nginx/html directory
 mkdir /etc/nginx/html
