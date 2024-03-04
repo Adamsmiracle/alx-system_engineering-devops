@@ -1,0 +1,27 @@
+#!/bin/bash
+#install nginx to listen on port 80 and then display Hello world
+# when a get request to sent to the root directory /.
+
+#update the package manager list
+sudo apt update
+
+#install nginx server with the -y flag to accept all options
+sudo apt install -y nginx
+
+# Creates the /etc/nginx/html directory
+mkdir /etc/nginx/html
+#  creates an empty index.html file inside the /etc/nginx/html directory.
+touch /etc/nginx/html/index.html
+#  Writes "Hello World!" to the the index.html file
+echo "Hello World!" > /etc/nginx/html/index.html
+# Sets the Nginx server with the ff configurations
+printf %s "server {
+     listen      80;
+     listen      [::]:80 default_server;
+     root        /etc/nginx/html;
+     index       index.html index.htm;
+}
+" > /etc/nginx/sites-available/default
+
+# Restarts the Nginx service
+service nginx restart
