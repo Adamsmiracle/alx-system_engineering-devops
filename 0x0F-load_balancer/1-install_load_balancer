@@ -1,35 +1,32 @@
 #!/usr/bin/env bash
-# Setups up and configures a load balancer
-sudo apt-get update -y
-sudo apt-get install -y haproxy
+# Create a script to install and configure HAProxy on lb-01 server
+# Configure HAProxy to send traffic to web-01 and web-02 servers
+# Distribute requests using a roundrobin algorithm
+# Make sure that HAProxy can be managed via an init script
 
+# Install and configure HAproxy on my lb-01 server.
+sudo apt-get -y update
+apt-get -y install haproxy
 
-echo "global
-    log 127.0.0.1 local0 notice
-    maxconn 2048
-    user haproxy
-    group haproxy
-defaults
-    log global
-    mode http
-    option httplog
-    option dontlognull
-    retries 3
-    option http-server-close
-    option http-pretend-keepalive
-    option redispatch
-    timeout connect 5000
-    timeout client 10000
-    timeout server 10000
-frontend myfrontend
-    bind *:80
-    default_backend mybackend
-backend mybackend
-    balance roundrobin
-    server 316681-web-01 54.160.68.240:80 check
-    server 316681-web-02 34.232.71.122:80 check
-" | sudo tee -a /etc/haproxy/haproxy.cfg
+# edit config file
+server_config=\
+"
+frontend  miracle_frontend
+        bind *:80
+        mode http
+        default_backend miracle_backend
+backend miracle_backend
+        balance roundrobin
+        server 176572-web-01 54.165.168.252:80 check
+        server 176572-web-02 34.237.91.136:80 check
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
+# enable haproxy to be started by init script
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
+# Testing the HAproxy configuration file
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# Restart the Nginx service
 sudo service haproxy restart
