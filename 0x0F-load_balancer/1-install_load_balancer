@@ -17,8 +17,8 @@ frontend  miracle_frontend
         default_backend miracle_backend
 backend miracle_backend
         balance roundrobin
-        server 176572-web-01 54.165.168.252:80 check
-        server 176572-web-02 34.237.91.136:80 check
+        server 491419-web-01 18.204.5.106:80 check
+        server 491419-web-02 100.26.238.80:80 check
 "
 echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
