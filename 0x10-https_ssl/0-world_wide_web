@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Bash script to check about sub domains
+function check_domain {
+	names=("www" "lb-01" "web-01" "web-02")
+
+	for i in "${names[@]}";
+	do
+		dig "${i}"."$1" | grep -A1 'ANSWER SECTION:' | \
+		awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
+	done
+}
+
+function check_sub {
+	dig "${2}"."$1" | grep -A1 'ANSWER SECTION:' | \
+	awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
+}
+
+if [ $# -lt 1 ]
+then
+	echo "*** specify a domain name ***"
+elif [ $# -eq 1 ]
+then
+	check_domain "$1";
+else
+	check_sub "$1" "$2";
+fi
