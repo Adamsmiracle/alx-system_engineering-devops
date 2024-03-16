@@ -1,1 +1,1 @@
-Script that print the abolute path of the current file
+How to connect to an ubuntu server
